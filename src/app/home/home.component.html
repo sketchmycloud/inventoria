@@ -1,0 +1,116 @@
+<div class="container">
+
+  <div style="margin-top:75px;" class="mainbox col-md-4">                    
+    <div class="panel panel-info" >
+            <div class="panel-heading">
+                <div class="panel-title" *ngIf="!isEditable">Add an Inventory</div>
+                <div class="panel-title" *ngIf="isEditable">Edit an Inventory</div>
+            </div>     
+
+            <div style="padding-top:30px" class="panel-body" >
+
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                    
+                <form class="form-horizontal" (ngSubmit)="onCreate()" #f="ngForm">
+                            
+                    <div style="margin-bottom: 25px">
+                                <input 
+                                      id="login-username" 
+                                      type="number"
+                                      class="form-control" 
+                                      name="iid" 
+                                      ngModel
+                                      placeholder="inventory id"
+                                      #inventory_id="ngModel"
+                                      required
+                                  />    
+                              <span class="error" *ngIf="!inventory_id.valid && inventory_id.touched">required</span>
+                            </div>
+                        
+                    <div style="margin-bottom: 25px">
+                                <input 
+                                        id="login-password" 
+                                        type="text" 
+                                        class="form-control" 
+                                        name="iname" 
+                                        ngModel
+                                        #inventory_name="ngModel"
+                                        placeholder="inventory name"
+                                        required
+                                  />
+                                  <span class="error" *ngIf="!inventory_name.valid && inventory_name.touched">required</span>
+                    </div>
+                            
+                    <div style="margin-bottom: 25px">
+                        <input 
+                              id="login-password" 
+                              type="number" 
+                              class="form-control" 
+                              name="istock" 
+                              ngModel
+                              #inventory_stock="ngModel"
+                              placeholder="total stock"
+                              required
+                            />
+                            <span class="error" *ngIf="!inventory_stock.valid && inventory_stock.touched">required</span>
+                    </div>
+
+                    <div>
+                        <input 
+                              type="checkbox" 
+                              name="iavailable"
+                              ngModel> In stock
+                    </div>
+            
+            
+
+                        <div style="margin-top:10px" class="form-group">
+                            <div class="col-sm-12 controls">
+                              <button type="submit" class="btn btn-primary" *ngIf="!isEditable" [disabled]="!f.valid">Add</button>
+                              <button type="button" (click)="onUpdated()" class="btn btn-primary" [disabled]="!f.valid" *ngIf="isEditable">Update</button>
+                            </div>
+                        </div>
+                        <p>
+                            <img src="/assets/images/ajax-loader.gif" width="25px;" *ngIf="isLoading" />  
+                        </p>
+  
+                    </form>     
+
+
+
+                </div>                     
+            </div>  
+</div>
+  
+
+  <div class="col-md-8" style="margin-top:75px;">
+      <img src="/assets/images/ajax-loader.gif" width="25px;" *ngIf="isListLoading" />  
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Inventory Name</th>
+            <th scope="col">Is Available</th>
+            <th scope="col">Total Stock</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let inventory of inventories">
+            <th scope="row">
+              {{ inventory.id }}
+              
+            </th>
+            <td>{{ inventory.name }}</td>
+            <td [ngClass]="inventory.isInStock ? 'available' : 'notAvailable' ">{{ inventory.isInStock ? "yes" : "no" }}</td>
+            <td>{{ inventory.totalInStock }} </td>
+            <td>
+              <button type="button" (click)="onUpdate(inventory)" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-pencil"></span> </button>&nbsp;
+              <button type="button" (click)="onDelete(inventory.id)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+ </div>

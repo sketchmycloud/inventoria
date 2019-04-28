@@ -1,0 +1,15 @@
+.available {
+    color: green;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.notAvailable {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+}
